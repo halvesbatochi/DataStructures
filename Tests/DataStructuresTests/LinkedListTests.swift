@@ -122,3 +122,109 @@ struct LinkedListAppendTests {
             #expect(list.description == "1 -> 2 -> 3")
         }
 }
+
+// --- Grupo de Testes para a Função 'node(at:)' ---
+struct LinkedListNodeAtTests {
+
+    private var list: LinkedList<Int>
+    
+    init() {
+        list = LinkedList<Int>()
+        list.append(1)
+        list.append(2)
+        list.append(3)
+    }
+
+    @Test("Deve encontrar o primeiro nó (head)")
+    func testNodeAtFirstIndex() {
+        #expect(list.node(at: 0)?.value == 1)
+    }
+
+    @Test("Deve encontrar um nó no meio da lista")
+    func testNodeAtMiddleIndex() {
+        #expect(list.node(at: 1)?.value == 2)
+    }
+
+    @Test("Deve encontrar o último nó (tail)")
+    func testNodeAtLastIndex() {
+        #expect(list.node(at: 2)?.value == 3)
+    }
+
+    @Test("Deve retornar nil para um índice fora dos limites")
+    func testNodeAtOutOfBoundsIndex() {
+        #expect(list.node(at: 99) == nil, "Índice muito alto deveria retornar nil")
+    }
+    
+    @Test("Deve retornar nil ao buscar em uma lista vazia")
+    func testNodeAtOnEmptyList() {
+        let emptyList = LinkedList<Int>()
+        #expect(emptyList.node(at: 0) == nil)
+    }
+}
+
+
+// --- Grupo de Testes para a Função 'insert(_:after:)' ---
+struct LinkedListInsertTests {
+    
+    @Test("Deve inserir um nó após o head da lista")
+    func testInsertAfterHead() {
+        var list = LinkedList<Int>()
+        list.append(1)
+        list.append(3)
+        
+        guard let node1 = list.node(at: 0) else {
+            Issue.record("Falha ao obter o nó na posição 0")
+            return
+        }
+        
+        list.insert(2, after: node1)
+        
+        #expect(list.description == "1 -> 2 -> 3")
+    }
+    
+    @Test("Deve inserir um nó no meio da lista")
+    func testInsertInTheMiddle() {
+        var list = LinkedList<Int>()
+        list.append(1)
+        list.append(2)
+        list.append(4)
+        
+        guard let node2 = list.node(at: 1) else {
+            Issue.record("Falha ao obter o nó na posição 1")
+            return
+        }
+        
+        list.insert(3, after: node2)
+        
+        #expect(list.description == "1 -> 2 -> 3 -> 4")
+    }
+
+    @Test("Inserir após o tail deve se comportar como append")
+    func testInsertAfterTail() {
+        var list = LinkedList<Int>()
+        list.append(1)
+        list.append(2)
+        
+        guard let tailNode = list.tail else {
+            Issue.record("Falha ao obter o tail")
+            return
+        }
+        
+        list.insert(3, after: tailNode)
+        
+        #expect(list.description == "1 -> 2 -> 3")
+        #expect(list.tail?.value == 3, "O tail da lista deveria ser atualizado para 3")
+    }
+    
+    @Test("A função deve retornar o nó recém-criado")
+    func testInsertReturnValue() {
+        var list = LinkedList<Int>()
+        list.append(1)
+        
+        let node1 = list.head!
+        let insertedNode = list.insert(2, after: node1)
+        
+        #expect(insertedNode.value == 2)
+        #expect(node1.next === insertedNode)
+    }
+}
