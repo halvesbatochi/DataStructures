@@ -272,3 +272,45 @@ struct LinkedListPopTests {
     }
 }
 
+// --- Grupo de Testes para a Função 'removeLast()' ---
+struct LinkedListRemoveLastTests {
+    
+    @Test("Remover o último de uma lista com múltiplos elementos")
+    func testRemoveLastOnMultiElementList() {
+        var list = LinkedList<Int>()
+        list.append(10)
+        list.append(20)
+        list.append(30)
+        
+        let removedValue = list.removeLast()
+        
+        #expect(removedValue == 30, "O valor removido deveria ser 30")
+        #expect(list.tail?.value == 20, "O novo tail da lista deveria ser 20")
+        #expect(list.head?.value == 10, "O head da lista não deveria mudar")
+        #expect(list.description == "10 -> 20", "A descrição deve refletir a lista atualizada")
+    }
+    
+    @Test("Remover o último de uma lista com um único elemento")
+    func testRemoveLastOnSingleElementList() {
+        var list = LinkedList<String>()
+        list.append("item único")
+        
+        let removedValue = list.removeLast()
+        
+        #expect(removedValue == "item único", "O valor removido deveria ser 'item único'")
+        #expect(list.isEmpty, "A lista deveria ficar vazia")
+        #expect(list.head == nil, "O head deveria se tornar nil")
+        #expect(list.tail == nil, "O tail também deveria se tornar nil")
+    }
+    
+    @Test("Remover o último de uma lista vazia deve retornar nil")
+    func testRemoveLastOnEmptyList() {
+        var list = LinkedList<Double>()
+        
+        let removedValue = list.removeLast()
+        
+        #expect(removedValue == nil, "Chamar removeLast() em uma lista vazia deve retornar nil")
+        #expect(list.isEmpty, "A lista deve continuar vazia")
+    }
+}
+
