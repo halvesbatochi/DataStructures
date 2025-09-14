@@ -228,3 +228,47 @@ struct LinkedListInsertTests {
         #expect(node1.next === insertedNode)
     }
 }
+
+// --- Grupo de Testes para a Função 'pop()' ---
+struct LinkedListPopTests {
+
+    @Test("Pop em uma lista com múltiplos elementos deve retornar o primeiro valor")
+    func testPopOnNonEmptyList() {
+        var list = LinkedList<Int>()
+        
+        list.append(1)
+        list.append(2)
+        list.append(3)
+        
+        let poppedValue = list.pop()
+        
+        #expect(poppedValue == 1, "O valor removido (pop) deveria ser o primeiro elemento, 1")
+        #expect(list.head?.value == 2, "O novo heade da lista deveria ser 2")
+        #expect(list.tail?.value == 3, "O tail da lista não devereia ser afetado")
+        #expect(list.description == "2 -> 3", "A descrição da lista deve refletir a remoção")
+    }
+    
+    @Test("Pop em uma lista com um único elemento deve esvaziá-la")
+    func testPopOnSingleElementList() {
+        var list = LinkedList<String>()
+        list.append("único")
+        
+        let poppedValue = list.pop()
+        
+        #expect(poppedValue == "único", "O valor removido deveria ser 'único'")
+        #expect(list.isEmpty, "A lista deveria ficar vazia após o pop")
+        #expect(list.head == nil, "O head deveria se tornar nil")
+        #expect(list.tail == nil, "O tail também deveria se tornar nil")
+    }
+    
+    @Test("Pop em uma lista vazia deve retornar nil")
+    func testPopOnEmptyList() {
+        var list = LinkedList<Character>()
+        
+        let poppedValue = list.pop()
+        
+        #expect(poppedValue == nil, "O pop em uma lista vazia deve sempre retornar nil")
+        #expect(list.isEmpty, "A lista deve continuar vazia")
+    }
+}
+
