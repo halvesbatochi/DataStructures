@@ -81,3 +81,44 @@ struct LinkedListDescriptionTests {
         #expect(list.description == expected)
     }
 }
+
+// --- Grupo de Testes para a Operação 'append' ---
+struct LinkedListAppendTests {
+    
+    @Test("Append em uma lista vazia deve se comportar como um push")
+    func testAppendToEmptyList() {
+        var list = LinkedList<Int>()
+        list.append(1)
+        
+        #expect(!list.isEmpty)
+        #expect(list.head?.value == 1, "Head deveria ser 1")
+        #expect(list.tail?.value == 1, "Tail deveria ser 1")
+        #expect(list.head === list.tail, "Head e Tail deveriam ser o mesmo nó")
+    }
+    
+    @Test("Append deve adicionar um elemento ao final de uma lista populada")
+        func testAppendToNonEmptyList() {
+            var list = LinkedList<Int>()
+            list.push(2)
+            list.push(3)
+            
+            list.append(1)
+            
+            #expect(list.head?.value == 3, "Head não deveria mudar")
+            #expect(list.tail?.value == 1, "O novo tail deveria ser 1")
+            #expect(list.head?.next?.next === list.tail, "O último elemento da cadeia deve ser o tail")
+        }
+        
+        @Test("Após múltiplos appends, a estrutura e descrição devem estar corretas")
+        func testAppendMultipleValues() {
+            var list = LinkedList<Int>()
+            list.append(1)
+            list.append(2)
+            list.append(3)
+            
+            #expect(list.head?.value == 1)
+            #expect(list.tail?.value == 3)
+            #expect(list.head?.next?.value == 2)
+            #expect(list.description == "1 -> 2 -> 3")
+        }
+}
