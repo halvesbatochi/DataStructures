@@ -23,6 +23,6 @@ extension Node: CustomStringConvertible {
         guard let next = next else {
             return "\(value)"
         }
-        return "\(value) -> " + String(describing: next) + " "
+        return "\(value) -> " + String(describing: next)
     }
 }
