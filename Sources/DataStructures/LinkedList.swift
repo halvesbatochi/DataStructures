@@ -5,18 +5,64 @@
 //  Created by Henrique Alves Batochi on 14/09/25.
 //
 
+import Foundation
+
 public struct LinkedList<Value> {
     
-    public var head: Node<Value>?
-    public var tail: Node<Value>?
+    private class Storage {
+        var head: Node<Value>?
+        var tail: Node<Value>?
+        
+        init(head: Node<Value>? = nil, tail: Node<Value>? = nil) {
+            self.head = head
+            self.tail = tail
+        }
+    }
     
-    public init() {}
+    private var _storage: Storage
+    
+    public var head: Node<Value>? {
+        get { return _storage.head }
+        set { _storage.head = newValue }
+    }
+    
+    public var tail: Node<Value>? {
+        get { return _storage.tail }
+        set { _storage.tail = newValue }
+    }
+    
+    public init() {
+        _storage = Storage()
+    }
     
     public var isEmpty: Bool {
         return head == nil
     }
     
+    private mutating func copyNodes() {
+        guard !isKnownUniquelyReferenced(&_storage) else {
+            return
+        }
+
+        guard var oldNode = head else {
+            _storage = Storage()
+            return
+        }
+        
+        var newHead = Node(value: oldNode.value)
+        var newNode = newHead
+        
+        while let nextOldNode = oldNode.next {
+            newNode.next = Node(value: nextOldNode.value)
+            newNode = newNode.next!
+            oldNode = nextOldNode
+        }
+        
+        _storage = Storage(head: newHead, tail: newNode)
+    }
+    
     public mutating func push(_ value: Value) {
+        copyNodes()
         head = Node(value: value, next: head)
         if tail == nil {
             tail = head
@@ -24,13 +70,13 @@ public struct LinkedList<Value> {
     }
     
     public mutating func append(_ value: Value) {
+        copyNodes()
         guard !isEmpty else {
             push(value)
             return
         }
         
         tail!.next = Node(value: value)
-        
         tail = tail!.next
     }
     
@@ -48,6 +94,7 @@ public struct LinkedList<Value> {
     
     @discardableResult
     public mutating func insert(_ value: Value, after node: Node<Value>) -> Node<Value> {
+        copyNodes()
         guard tail !== node else {
             append(value)
             return tail!
@@ -59,6 +106,7 @@ public struct LinkedList<Value> {
     
     @discardableResult
     public mutating func pop() -> Value? {
+        copyNodes()
         defer {
             head = head?.next
             if isEmpty {
@@ -70,6 +118,7 @@ public struct LinkedList<Value> {
     
     @discardableResult
     public mutating func removeLast() -> Value? {
+        copyNodes()
         guard let head = head else {
             return nil
         }
@@ -93,6 +142,7 @@ public struct LinkedList<Value> {
     
     @discardableResult
     public mutating func remove(after node: Node<Value>) -> Value? {
+        copyNodes()
         defer {
             if node.next === tail {
                 tail = node
@@ -102,6 +152,7 @@ public struct LinkedList<Value> {
         return node.next?.value
     }
 }
+    
 
 extension LinkedList: CustomStringConvertible {
     

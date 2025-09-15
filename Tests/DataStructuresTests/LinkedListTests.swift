@@ -460,3 +460,71 @@ struct LinkedListCollectionTests {
             #expect(result == ["Um", "Dois", "Três"], "O laço for-in deve percorrer todos os elementos na ordem correta")
         }
 }
+
+// --- Grupo de Testes para Cópia na Escrita (Copy-on-Write) ---
+struct LinkedListCOWTests {
+
+    @Test("Modificar uma cópia não deve afetar a original (append)")
+    func testCopyOnWriteWithAppend() {
+        var list1 = LinkedList<Int>()
+        list1.append(1)
+        list1.append(2)
+        
+        var list2 = list1
+
+        list2.append(3)
+        
+        #expect(list1.description == "1 -> 2", "A lista original não deve ser modificada.")
+        #expect(list2.description == "1 -> 2 -> 3", "A lista copiada deve refletir a modificação.")
+        #expect(list1.head !== list2.head, "Após a cópia, os heads das listas devem ser instâncias de nós diferentes.")
+    }
+
+    @Test("Modificar uma cópia não deve afetar a original (pop)")
+    func testCopyOnWriteWithPop() {
+        var list1 = LinkedList<String>()
+        list1.push("C")
+        list1.push("B")
+        list1.push("A")
+        
+        var list2 = list1
+        
+        let poppedValue = list2.pop()
+        
+        #expect(poppedValue == "A")
+        #expect(list1.description == "A -> B -> C", "A lista original deve permanecer intacta.")
+        #expect(list2.description == "B -> C", "A lista copiada deve ser modificada.")
+    }
+    
+    @Test("Modificar lista com referência única não deve copiar")
+    func testMutationOnUniquelyReferencedList() {
+        var list = LinkedList<Int>()
+        list.append(1)
+        
+        let oldHeadIdentifier = ObjectIdentifier(list.head!)
+        
+        list.append(2)
+        
+        let newHeadIdentifier = ObjectIdentifier(list.head!)
+        
+        #expect(newHeadIdentifier == oldHeadIdentifier, "O nó head não deveria ter sido copiado, pois a lista era unicamente referenciada.")
+        #expect(list.description == "1 -> 2", "A modificação deve ter sido bem-sucedida.")
+    }
+
+    @Test("Múltiplas cópias e modificações em cadeia")
+    func testMultipleCopiesAndChainedMutations() {
+        var listA = LinkedList<Int>()
+        listA.append(10)
+        
+        var listB = listA
+        var listC = listA
+        
+        // Act
+        listB.append(20)
+        listC.append(30)
+        
+        // Assert
+        #expect(listA.description == "10", "listA deveria permanecer com seu valor original.")
+        #expect(listB.description == "10 -> 20", "listB deveria ter seu próprio valor modificado.")
+        #expect(listC.description == "10 -> 30", "listC deveria ter seu próprio valor modificado.")
+    }
+}

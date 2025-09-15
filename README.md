@@ -24,8 +24,6 @@ O `Node` é o bloco de construção fundamental para estruturas de dados encadea
 
 #### Instanciação e Uso
 
-Você pode criar um nó individualmente ou já conectá-lo a outro nó existente.
-
 **1. Criando um nó simples:**
 
 ```swift
@@ -51,12 +49,13 @@ print(firstNode) // Saída: 10 -> 20
 
 ### LinkedList<Value>
 
-Uma Lista Ligada (Linked List) é uma estrutura de dados linear que consiste em uma sequência de nós, onde cada nó armazena um valor e uma referência para o próximo nó da sequência. Esta implementação é uma lista ligada unidirecional (singly-linked list).
+Uma Lista Ligada (Linked List) é uma estrutura de dados linear que consiste em uma sequência de nós. Esta implementação é uma lista ligada unidirecional (singly-linked list) com otimizações para o ecossistema Swift.
 
 #### Características Técnicas
 
 -   **Gerenciamento de `head` e `tail`:** A lista mantém referências tanto para o primeiro (`head`) quanto para o último (`tail`) nó. Isso permite operações de inserção no início e no fim com altíssima performance.
--   **Tipo de Valor (`struct`):** A `LinkedList` em si é uma `struct`, o que significa que ela tem semântica de valor. No entanto, ela gerencia uma coleção de `Node`s, que são `class` (tipos de referência).
+-   **Semântica de Valor com Copy-on-Write (COW):** A `LinkedList` é uma `struct` e se comporta como as coleções nativas do Swift (`Array`, `Dictionary`). Cópias são extremamente rápidas e eficientes em memória, pois os dados internos (os nós) só são duplicados no exato momento de uma modificação, evitando cópias desnecessárias.
+-   **Conformidade com `Collection`:** Permite o uso de uma vasta gama de funcionalidades da Biblioteca Padrão do Swift, incluindo iteração com laços `for-in`, acesso a propriedades como `.count` e `.first`, e o uso de métodos de alta ordem como `map`, `filter` e `reduce`.
 -   **Genérica (`<Value>`):** Pode ser usada para criar uma lista de qualquer tipo de dado.
 -   **Impressão Amigável (`CustomStringConvertible`):** Você pode imprimir a lista inteira diretamente, o que é ótimo para depuração.
 
@@ -84,6 +83,37 @@ print(poppedValue ?? "nil") // Saída: B
 print(list)                 // Saída: C -> D
 ```
 
+#### Uso Avançado (Protocolo `Collection`)
+
+Graças à conformidade com `Collection`, você pode interagir com a `LinkedList` de maneiras muito mais expressivas e poderosas.
+
+```swift
+var list = LinkedList<Int>()
+list.append(10)
+list.append(20)
+list.append(30)
+
+// Iteração com for-in
+for value in list {
+    print(value)
+}
+// Saída:
+// 10
+// 20
+// 30
+
+// Propriedades como .count e .first
+print(list.count) // Saída: 3
+print(list.first ?? -1) // Saída: 10
+
+// Métodos de alta ordem como .map e .filter
+let squared = list.map { $0 * $0 }
+print(squared) // Saída: [100, 400, 900]
+
+let evenNumbers = list.filter { $0 % 2 == 0 }
+print(evenNumbers) // Saída: [10, 20, 30]
+```
+
 #### Análise de Performance
 
 A principal vantagem de uma Lista Ligada sobre um Array é a performance consistente para operações de inserção e remoção no início da coleção.
@@ -97,6 +127,8 @@ A principal vantagem de uma Lista Ligada sobre um Array é a performance consist
 | `pop` | $O(1)$ | Remover o primeiro elemento (head) é uma operação de tempo constante. |
 | `removeLast` | $O(n)$ | Para remover o último elemento, é preciso percorrer **toda a lista** para encontrar o penúltimo nó. |
 | `remove(after:)` | $O(1)$ | Remover um nó após um nó específico é uma operação de tempo constante. |
+
+**Nota sobre `Collection`:** A conformidade com o protocolo `Collection` adiciona funcionalidades muito úteis, como a propriedade `.count`. É importante notar que, em uma `LinkedList`, o cálculo do `.count` tem uma complexidade de tempo de $O(n)$, pois requer a travessia de toda a lista para contar os elementos. Da mesma forma, outras operações como `.filter` também são $O(n)$.
 
 ---
 
