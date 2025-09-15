@@ -4,8 +4,8 @@ Uma coleção de estruturas de dados fundamentais e eficientes, implementada em 
 
 ## Estruturas de Dados Implementadas
 
--   [Node](#nodevalue)
--   *LinkedList (em breve)*
+-   [Node<Value>](#nodevalue)
+-   [LinkedList<Value>](#linkedlistvalue)
 -   *Queue (em breve)*
 -   *Stack (em breve)*
 
@@ -38,33 +38,65 @@ print(singleNode.next)  // Saída: nil
 
 **2. Criando nós encadeados:**
 
-Para formar uma cadeia, você pode passar o próximo nó durante a inicialização.
-
 ```swift
 // Cria o segundo nó
 let secondNode = Node(value: 20)
-
 // Cria o primeiro nó, já apontando para o segundo
 let firstNode = Node(value: 10, next: secondNode)
 
-// Graças ao CustomStringConvertible, a impressão é intuitiva
 print(firstNode) // Saída: 10 -> 20
 ```
 
-#### Acessando Valores
+---
 
-Você pode navegar pela cadeia de nós através da propriedade `next`.
+### LinkedList<Value>
+
+Uma Lista Ligada (Linked List) é uma estrutura de dados linear que consiste em uma sequência de nós, onde cada nó armazena um valor e uma referência para o próximo nó da sequência. Esta implementação é uma lista ligada unidirecional (singly-linked list).
+
+#### Características Técnicas
+
+-   **Gerenciamento de `head` e `tail`:** A lista mantém referências tanto para o primeiro (`head`) quanto para o último (`tail`) nó. Isso permite operações de inserção no início e no fim com altíssima performance.
+-   **Tipo de Valor (`struct`):** A `LinkedList` em si é uma `struct`, o que significa que ela tem semântica de valor. No entanto, ela gerencia uma coleção de `Node`s, que são `class` (tipos de referência).
+-   **Genérica (`<Value>`):** Pode ser usada para criar uma lista de qualquer tipo de dado.
+-   **Impressão Amigável (`CustomStringConvertible`):** Você pode imprimir a lista inteira diretamente, o que é ótimo para depuração.
+
+#### Instanciação e Uso Básico
 
 ```swift
-if let nextNode = firstNode.next {
-    print(nextNode.value) // Saída: 20
-}
+// Cria uma nova lista ligada de Strings
+var list = LinkedList<String>()
 
-// Acessando o valor do segundo nó através do primeiro
-if let nextValue = firstNode.next?.value {
-    print(nextValue) // Saída: 20
-}
+// 1. Adicionando no início (push)
+list.push("C")
+print(list) // Saída: C
+
+// 2. Adicionando no início novamente
+list.push("B")
+print(list) // Saída: B -> C
+
+// 3. Adicionando no final (append)
+list.append("D")
+print(list) // Saída: B -> C -> D
+
+// 4. Removendo do início (pop)
+let poppedValue = list.pop()
+print(poppedValue ?? "nil") // Saída: B
+print(list)                 // Saída: C -> D
 ```
+
+#### Análise de Performance
+
+A principal vantagem de uma Lista Ligada sobre um Array é a performance consistente para operações de inserção e remoção no início da coleção.
+
+| Método | Complexidade de Tempo | Descrição |
+| :--- | :--- | :--- |
+| `push` | $O(1)$ | Inserir no início da lista (head) é uma operação de tempo constante. |
+| `append` | $O(1)$ | Inserir no fim da lista (tail) também é $O(1)$ porque mantemos uma referência direta para o `tail`. |
+| `insert(after:)` | $O(1)$ | Inserir após um nó específico é uma operação de tempo constante. |
+| `node(at:)` | $O(i)$ | Para encontrar um nó em um índice `i`, é preciso percorrer a lista a partir do `head`. |
+| `pop` | $O(1)$ | Remover o primeiro elemento (head) é uma operação de tempo constante. |
+| `removeLast` | $O(n)$ | Para remover o último elemento, é preciso percorrer **toda a lista** para encontrar o penúltimo nó. |
+| `remove(after:)` | $O(1)$ | Remover um nó após um nó específico é uma operação de tempo constante. |
 
 ---
 
