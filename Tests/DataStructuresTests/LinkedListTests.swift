@@ -314,3 +314,65 @@ struct LinkedListRemoveLastTests {
     }
 }
 
+// --- Grupo de Testes para a Função 'remove(after:)' ---
+struct LinkedListRemoveAfterTests {
+    
+    @Test("Remover um nó do meio da lista")
+    func testRemoveAfterMiddleNode() {
+        var list = LinkedList<Int>()
+        list.append(10)
+        list.append(20)
+        list.append(30)
+        list.append(40)
+        
+        guard let node20 = list.node(at: 1) else {
+            Issue.record("Falha ao obter o nó na posição 1, que deveria existir.")
+            return
+        }
+        
+        let removedValue = list.remove(after: node20)
+        
+        #expect(removedValue == 30, "O valor removido deveria ser 30")
+        #expect(list.description == "10 -> 20 -> 40", "A lista deve pular o nó 30")
+        #expect(list.head?.value == 10, "O head não deve ser afetado")
+        #expect(list.tail?.value == 40, "O tail não deve ser afetado")
+    }
+    
+    @Test("Remover o último nó (tail) deve atualizar o tail")
+    func testRemoveLastNodeUpdatesTail() {
+        var list = LinkedList<String>()
+        list.append("A")
+        list.append("B")
+        list.append("C")
+        
+        guard let nodeB = list.node(at: 1) else {
+            Issue.record("Falha ao obter o nó na posição 1")
+            return
+        }
+        
+        let removedValue = list.remove(after: nodeB)
+        
+        #expect(removedValue == "C", "O valor removido deveria ser 'C'")
+        #expect(list.tail?.value == "B", "O novo tail da lista deveria ser 'B'")
+        #expect(list.description == "A -> B", "A descrição deve refletir a remoção do último nó")
+        #expect(list.tail === nodeB, "A propriedade tail deve apontar para o próprio nó 'B'")
+    }
+    
+    @Test("Tentar remover após o último nó não deve fazer nada e retornar nil")
+    func testRemoveAfterTailNode() {
+        var list = LinkedList<Int>()
+        list.append(1)
+        list.append(2)
+        list.append(3)
+        
+        guard let tailNode = list.tail else {
+            Issue.record("Falha ao obter o tail da lista")
+            return
+        }
+        
+        let removedValue = list.remove(after: tailNode)
+        
+        #expect(removedValue == nil, "Deveria retornar nil, pois não há nó após o tail")
+        #expect(list.description == "1 -> 2 -> 3", "A lista não deveria ser modificada")
+    }
+}
