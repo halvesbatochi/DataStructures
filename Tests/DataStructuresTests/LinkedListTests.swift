@@ -376,3 +376,87 @@ struct LinkedListRemoveAfterTests {
         #expect(list.description == "1 -> 2 -> 3", "A lista não deveria ser modificada")
     }
 }
+
+// --- Grupo de Testes para a Conformidade com 'Collection' ---
+struct LinkedListCollectionTests {
+    
+    
+    @Test("Propriedades startIndex e endIndex")
+    func testStartAndEndIndex() {
+        var list = LinkedList<Int>()
+        list.append(10)
+        list.append(20)
+        
+        #expect(list.startIndex.node === list.head, "O startIndex deve apontar para o head")
+        #expect(list.endIndex.node === nil, "O endIndex deve apontar para nil (após o tail)")
+        
+        let emptyList = LinkedList<Int>()
+        
+        #expect(emptyList.startIndex == emptyList.endIndex, "Em uma lista vazia, os índices de início e fim devem ser iguais")
+    }
+    
+    @Test("Avançando o índice com index(after:)")
+    func testIndexAfter() {
+        var list = LinkedList<Character>()
+        list.append("A")
+        list.append("B")
+        list.append("C")
+        
+        let startIndex = list.startIndex
+        let secondIndex = list.index(after: startIndex)
+        let thirdIndex = list.index(after: secondIndex)
+        
+        #expect(list[startIndex] == "A")
+        #expect(list[secondIndex] == "B")
+        #expect(list[thirdIndex] == "C")
+    }
+    
+    @Test("Acessando valores via subscript")
+    func testSubscript() {
+        var list = LinkedList<Int>()
+        list.append(100)
+        list.append(200)
+        
+        let firstValue = list[list.startIndex]
+        let secondValue = list[list.index(after: list.startIndex)]
+        
+        #expect(firstValue == 100)
+        #expect(secondValue == 200)
+    }
+    
+    @Test("Conformidade com Collection habilita métodos como map, filter e count")
+        func testHigherOrderFunctions() {
+            var list = LinkedList<Int>()
+            list.append(1)
+            list.append(2)
+            list.append(3)
+            list.append(4)
+            
+            let mappedArray = list.map { $0 * 10 }
+            #expect(mappedArray == [10, 20, 30, 40], "A função map deve funcionar corretamente")
+
+            let filteredArray = list.filter { $0 % 2 != 0 }
+            #expect(filteredArray == [1, 3], "A função filter deve funcionar corretamente")
+            
+            #expect(list.count == 4, "A propriedade count deve estar disponível e correta")
+            
+            let emptyList = LinkedList<Int>()
+            #expect(emptyList.count == 0, "O count de uma lista vazia deve ser 0")
+        }
+        
+        @Test("Iteração com laço for-in")
+        func testForInLoop() {
+            var list = LinkedList<String>()
+            list.append("Um")
+            list.append("Dois")
+            list.append("Três")
+            
+            var result: [String] = []
+            
+            for item in list {
+                result.append(item)
+            }
+
+            #expect(result == ["Um", "Dois", "Três"], "O laço for-in deve percorrer todos os elementos na ordem correta")
+        }
+}
