@@ -132,6 +132,71 @@ A principal vantagem de uma Lista Ligada sobre um Array é a performance consist
 
 ---
 
+### Stack<Element>
+
+Uma Pilha (Stack) é uma estrutura de dados que segue o princípio **LIFO** (Last-In, First-Out), ou seja, o último elemento a entrar é o primeiro a sair. É análoga a uma pilha de pratos: você adiciona (`push`) e remove (`pop`) pratos sempre pelo topo. Esta implementação utiliza um `Array` Swift como seu armazenamento interno, garantindo excelente performance.
+
+#### Características Técnicas
+
+-   **Wrapper de `Array` Swift:** Construída sobre a estrutura `Array` nativa do Swift, aproveitando toda a sua eficiência e gerenciamento de memória.
+-   **LIFO (Last-In, First-Out):** A lógica fundamental da pilha é estritamente seguida em suas operações.
+-   **Semântica de Valor (`struct`):** Comporta-se como as coleções padrão do Swift. As cópias são baratas e a duplicação de memória só ocorre na primeira modificação (Copy-on-Write, herdado do `Array`).
+-   **Genérica (`<Element>`):** Pode armazenar qualquer tipo de dado.
+-   **Inicialização Versátil (`ExpressibleByArrayLiteral`):** Permite criar uma pilha de forma declarativa e intuitiva, como `let stack: Stack = [1, 2, 3]`.
+-   **Impressão Amigável (`CustomStringConvertible`):** Fornece uma representação visual clara da pilha, com o topo em destaque, facilitando a depuração.
+
+#### Instanciação e Uso
+
+```swift
+// 1. Criando uma pilha com 'array literal'
+var stack: Stack = [10, 20]
+
+// 2. Empilhando (push) um novo elemento
+stack.push(30)
+
+// A pilha agora é [10, 20, 30], com 30 no topo
+print(stack)
+// Saída:
+// ----top----
+// 30
+// 20
+// 10
+// -----------
+
+// 3. Espiando (peek) o elemento do topo
+// Retorna o valor sem removê-lo
+if let topElement = stack.peek() {
+    print("Elemento no topo: \(topElement)") // Saída: Elemento no topo: 30
+}
+
+// 4. Desempilhando (pop)
+// Remove e retorna o elemento do topo
+let poppedValue = stack.pop()
+print("Valor removido: \(poppedValue ?? -1)") // Saída: Valor removido: 30
+print("Pilha agora: \n\(stack)")
+// Saída:
+// Pilha agora:
+// ----top----
+// 20
+// 10
+// -----------
+
+// 5. Verificando se está vazia
+print(stack.isEmpty) // Saída: false
+
+#### Análise de Performance
+
+Graças ao uso de um `Array` como base, as operações principais de uma `Stack` são extremamente rápidas.
+
+| Método | Complexidade de Tempo | Descrição |
+| :--- | :--- | :--- |
+| `push` | $O(1)$ (Amortizado) | Adicionar um elemento ao final de um `Array` é uma operação de tempo constante na maior parte do tempo. |
+| `pop` | $O(1)$ | Remover o último elemento de um `Array` é sempre uma operação de tempo constante. |
+| `peek` | $O(1)$ | Acessar o último elemento de um `Array` é sempre uma operação de tempo constante. |
+| `isEmpty` | $O(1)$ | A verificação se a pilha está vazia também tem tempo constante. |
+
+---
+
 ### Como Usar (Instalação)
 
 Este projeto é um Swift Package. Para adicioná-lo como uma dependência ao seu projeto, adicione a URL deste repositório no Xcode ou no seu arquivo `Package.swift`.
