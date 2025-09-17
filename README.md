@@ -4,8 +4,8 @@ Uma coleção de estruturas de dados fundamentais e eficientes, implementada em 
 
 ## Estruturas de Dados Implementadas
 
--   [Node<Value>](#nodevalue)
--   [LinkedList<Value>](#linkedlistvalue)
+-   [Node<Value>](#nodevalue)
+-   [LinkedList<Value>](#linkedlistvalue)
 -   [Stack<Value>](#stackelement)
 -   *Queue (em breve)*
 
