@@ -6,7 +6,7 @@ Uma coleção de estruturas de dados fundamentais e eficientes, implementada em 
 
 -   [Node<Value>](#nodevalue)
 -   [LinkedList<Value>](#linkedlistvalue)
--   [Stack<Value>](#stackvalue)
+-   [Stack<Value>](#stackelement)
 -   *Queue (em breve)*
 
 ---
