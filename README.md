@@ -184,6 +184,8 @@ print("Pilha agora: \n\(stack)")
 // 5. Verificando se está vazia
 print(stack.isEmpty) // Saída: false
 
+```
+
 #### Análise de Performance
 
 Graças ao uso de um `Array` como base, as operações principais de uma `Stack` são extremamente rápidas.
@@ -209,7 +211,6 @@ Este projeto é um Swift Package. Para adicioná-lo como uma dependência ao seu
 dependencies: [
     .package(url: "URL_DO_SEU_REPOSITORIO_AQUI", .upToNextMajor(from: "1.0.0"))
 ]
-```
 
 ### Testes
 
