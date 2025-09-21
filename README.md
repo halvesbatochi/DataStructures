@@ -347,6 +347,60 @@ Apesar da simplicidade e da familiaridade de usar um Array como base, esta imple
 2. **Consumo de Memória**: O Array subjacente pode precisar de redimensionamento para acomodar novos elementos. Em alguns casos, isso pode resultar em duplicação de memória e um uso ineficiente de espaço, aumentando a **memória ocupada (memory footprint)**.  
 Uma alternativa para superar essas limitações é implementar a fila usando uma **Lista Encadeada (Linked List)**. Uma Queue baseada em LinkedList oferece um desempenho de O(1) para as operações de enqueue e dequeue, pois a remoção e adição de elementos não exige realocação de memória em massa. Embora seja uma implementação mais complexa, ela é superior para casos em que o desempenho e a gestão de memória são críticos.  
 
+---
+
+**Queue<Element>** 
+Uma Fila (Queue) é uma estrutura de dados que segue o princípio **FIFO** (First-In, First-Out), onde o primeiro elemento a entrar é o primeiro a sair. Esta implementação utiliza uma **Lista Duplamente Encadeada** como seu armazenamento interno.  
+Uma Fila (Queue) é uma estrutura de dados que segue o princípio **FIFO** (First-In, First-Out), onde o primeiro elemento a entrar é o primeiro a sair. Esta implementação utiliza uma **Lista Duplamente Encadeada** como seu armazenamento interno.  
+**Características Técnicas**  
+* **Baseada em Lista Duplamente Encadeada:** Essa abordagem resolve a ineficiência de desenfileiramento da Queuebaseada em Array, tornando as operações de enqueue e dequeue muito mais rápidas e consistentes.  
+* **FIFO (First-In, First-Out):** A lógica fundamental da fila é estritamente seguida em suas operações.  
+* **Genérica (<T>):** Pode armazenar qualquer tipo de dado.  
+* **Impressão Amigável (CustomStringConvertible):** Fornece uma representação visual clara da fila, facilitando a depuração.  
+**Instanciação e Uso**  
+```swift
+// 1. Criando uma fila
+var queue = QueueLinkedList<Int>()
+
+// 2. Enfileirando (enqueue) novos elementos
+_ = queue.enqueue(10)
+_ = queue.enqueue(20)
+
+// A fila agora é 10 -> 20
+print("Fila atual: \(queue)")
+
+// 3. Espiando (peek) o próximo elemento
+// Retorna o valor do primeiro elemento sem removê-lo
+if let firstElement = queue.peek {
+    print("Próximo elemento a sair: \(firstElement)") // Saída: Próximo elemento a sair: Optional(10)
+}
+
+// 4. Desenfileirando (dequeue)
+// Remove e retorna o primeiro elemento da fila
+let dequeuedValue = queue.dequeue()
+print("Valor removido: \(dequeuedValue ?? -1)") // Saída: Valor removido: Optional(10)
+print("Fila agora: \(queue)") // Saída: Fila agora: 20 -> nil
+
+// 5. Verificando se está vazia
+print("A fila está vazia? \(queue.isEmpty)") // Saída: A fila está vazia? false
+
+
+```
+**Análise de Performance**  
+A implementação de uma fila baseada em lista duplamente encadeada tem um desempenho ideal para as operações principais, pois as inserções e remoções não exigem a realocação de memória em massa.  
+
+| Operação | Melhor Caso | Pior Caso |
+| -------- | ----------- | --------- |
+| enqueue  | O(1)        | O(1)      |
+| dequeue  | O(1)        | O(1)      |
+| isEmpty  | O(1)        | O(1)      |
+| peek     | O(1)        | O(1)      |
+| Espaço   | O(n)        | O(n)      |
+  
+Apesar da performance de **tempo constante** para as operações de enqueue e dequeue, essa implementação tem uma desvantagem: o **custo de alocação de memória**.  
+* **Alocação Dinâmica por Elemento:** Cada novo elemento enfileirado requer uma alocação de memória dinâmica para o seu nó, o que pode ser relativamente custoso em comparação com a alocação em massa (bulk allocation) usada por um Array quando ele redimensiona.  
+* **Overhead de Memória:** Cada nó precisa de um espaço de armazenamento extra para as referências de previous e next. Isso aumenta o **overhead de memória**, o que pode ser um problema para filas com milhões de elementos.  
+
 
 ---
 
