@@ -353,8 +353,9 @@ Uma alternativa para superar essas limitações é implementar a fila usando uma
 **Queue<Element>** 
 
 Uma Fila (Queue) é uma estrutura de dados que segue o princípio **FIFO** (First-In, First-Out), onde o primeiro elemento a entrar é o primeiro a sair. Esta implementação utiliza uma **Lista Duplamente Encadeada** como seu armazenamento interno.  
-Uma Fila (Queue) é uma estrutura de dados que segue o princípio **FIFO** (First-In, First-Out), onde o primeiro elemento a entrar é o primeiro a sair. Esta implementação utiliza uma **Lista Duplamente Encadeada** como seu armazenamento interno.  
+
 **Características Técnicas**  
+
 * **Baseada em Lista Duplamente Encadeada:** Essa abordagem resolve a ineficiência de desenfileiramento da Queuebaseada em Array, tornando as operações de enqueue e dequeue muito mais rápidas e consistentes.  
 * **FIFO (First-In, First-Out):** A lógica fundamental da fila é estritamente seguida em suas operações.  
 * **Genérica (<T>):** Pode armazenar qualquer tipo de dado.  
@@ -389,6 +390,7 @@ print("A fila está vazia? \(queue.isEmpty)") // Saída: A fila está vazia? fal
 
 ```
 **Análise de Performance**  
+
 A implementação de uma fila baseada em lista duplamente encadeada tem um desempenho ideal para as operações principais, pois as inserções e remoções não exigem a realocação de memória em massa.  
 
 | Operação | Melhor Caso | Pior Caso |
