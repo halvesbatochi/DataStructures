@@ -258,6 +258,14 @@ A performance desta Queue baseada em Array tem uma particularidade: a operação
 A operação de ****enqueue**** tem uma complexidade de tempo constante, pois o elemento é adicionado ao final do Array. No entanto, a operação de ****dequeue**** tem uma complexidade de tempo linear **O(n)**. Isso ocorre porque remover o primeiro elemento de um Array nativo requer que todos os outros elementos sejam realocados para preencher o espaço vazio, o que se torna menos eficiente à medida que a fila cresce.  
 
 
+## **Limitações e Alternativas**  
+  
+Apesar da simplicidade e da familiaridade de usar um Array como base, esta implementação de Queue apresenta duas desvantagens notáveis, especialmente em cenários de alta performance e com grandes volumes de dados:  
+1. **Ineficiência no dequeue**: A operação de dequeue tem uma complexidade de tempo de O(n), pois a remoção do primeiro elemento exige que todos os elementos subsequentes sejam realocados na memória. Isso impacta negativamente o desempenho em filas com muitos itens.  
+2. **Consumo de Memória**: O Array subjacente pode precisar de redimensionamento para acomodar novos elementos. Em alguns casos, isso pode resultar em duplicação de memória e um uso ineficiente de espaço, aumentando a **memória ocupada (memory footprint)**.  
+Uma alternativa para superar essas limitações é implementar a fila usando uma **Lista Encadeada (Linked List)**. Uma Queue baseada em LinkedList oferece um desempenho de O(1) para as operações de enqueue e dequeue, pois a remoção e adição de elementos não exige realocação de memória em massa. Embora seja uma implementação mais complexa, ela é superior para casos em que o desempenho e a gestão de memória são críticos.  
+
+
 ---
 
 ### Como Usar (Instalação)
