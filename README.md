@@ -213,9 +213,8 @@ Uma Fila (Queue) é uma estrutura de dados que segue o princípio **FIFO** (Firs
   
 **Instanciação e Uso**  
   
-Swift  
-  
-```
+
+```swift
 // 1. Criando uma fila
 var queue = QueueArray<Int>()
 
