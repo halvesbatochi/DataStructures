@@ -133,7 +133,8 @@ A principal vantagem de uma Lista Ligada sobre um Array é a performance consist
 
 ---
 
-## **DoublyLinkedList<Value>**  
+## **DoublyLinkedList<Value>**
+
 Uma Lista Duplamente Encadeada (Doubly-Linked List) é uma estrutura de dados linear que consiste em uma sequência de nós, onde cada nó mantém uma referência para o nó anterior e para o próximo. Isso permite a navegação em ambas as direções, tornando as operações de inserção e remoção mais eficientes em certas posições. Esta implementação também utiliza o padrão Copy-on-Write para otimização de memória.  
 **Características Técnicas**  
 *   **Nós Bidirecionais:** Cada nó (DoublyListNode) armazena uma referência para o próximo e para o nó anterior, permitindo o percurso em ambas as direções.  
@@ -350,6 +351,7 @@ Uma alternativa para superar essas limitações é implementar a fila usando uma
 ---
 
 **Queue<Element>** 
+
 Uma Fila (Queue) é uma estrutura de dados que segue o princípio **FIFO** (First-In, First-Out), onde o primeiro elemento a entrar é o primeiro a sair. Esta implementação utiliza uma **Lista Duplamente Encadeada** como seu armazenamento interno.  
 Uma Fila (Queue) é uma estrutura de dados que segue o princípio **FIFO** (First-In, First-Out), onde o primeiro elemento a entrar é o primeiro a sair. Esta implementação utiliza uma **Lista Duplamente Encadeada** como seu armazenamento interno.  
 **Características Técnicas**  
@@ -400,7 +402,6 @@ A implementação de uma fila baseada em lista duplamente encadeada tem um desem
 Apesar da performance de **tempo constante** para as operações de enqueue e dequeue, essa implementação tem uma desvantagem: o **custo de alocação de memória**.  
 * **Alocação Dinâmica por Elemento:** Cada novo elemento enfileirado requer uma alocação de memória dinâmica para o seu nó, o que pode ser relativamente custoso em comparação com a alocação em massa (bulk allocation) usada por um Array quando ele redimensiona.  
 * **Overhead de Memória:** Cada nó precisa de um espaço de armazenamento extra para as referências de previous e next. Isso aumenta o **overhead de memória**, o que pode ser um problema para filas com milhões de elementos.  
-
 
 ---
 
