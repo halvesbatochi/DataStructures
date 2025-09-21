@@ -132,6 +132,87 @@ A principal vantagem de uma Lista Ligada sobre um Array é a performance consist
 
 ---
 
+## **DoublyLinkedList<Value>**  
+Uma Lista Duplamente Encadeada (Doubly-Linked List) é uma estrutura de dados linear que consiste em uma sequência de nós, onde cada nó mantém uma referência para o nó anterior e para o próximo. Isso permite a navegação em ambas as direções, tornando as operações de inserção e remoção mais eficientes em certas posições. Esta implementação também utiliza o padrão Copy-on-Write para otimização de memória.  
+**Características Técnicas**  
+*   **Nós Bidirecionais:** Cada nó (DoublyListNode) armazena uma referência para o próximo e para o nó anterior, permitindo o percurso em ambas as direções.  
+*   **Gerenciamento de head e tail:** Mantém referências diretas para o primeiro (head) e o último (tail) nó, o que garante alta performance para inserções e remoções em ambas as extremidades.  
+*   **Semântica de Valor com Copy-on-Write (COW):** A DoublyLinkedList é uma struct que se comporta como as coleções nativas do Swift (Array, Dictionary). As cópias são baratas e eficientes, com a duplicação dos dados internos ocorrendo apenas no momento da primeira modificação.  
+*   **Conformidade com Collection:** Permite o uso de uma vasta gama de funcionalidades da Biblioteca Padrão do Swift, incluindo iteração com laços for-in, acesso a propriedades como .count e .first, e o uso de métodos de alta ordem como map, filter e reduce.  
+*   **Genérica (<Value>):** Pode ser usada para armazenar qualquer tipo de dado.  
+*   **Impressão Amigável (CustomStringConvertible):** Oferece uma representação visual clara da lista, excelente para depuração.  
+**Instanciação e Uso Básico**  
+```swift
+// Cria uma nova lista duplamente encadeada de Strings
+var list = DoublyLinkedList<String>()
+
+// 1. Adicionando no início (push)
+list.push("C")
+print(list) // Saída: Head -> (nil <- C -> nil) <- Tail
+
+// 2. Adicionando no início novamente
+list.push("B")
+print(list) // Saída: Head -> (nil <- B -> C) <-> (B <- C -> nil) <- Tail
+
+// 3. Adicionando no final (append)
+list.append("D")
+print(list) // Saída: Head -> (nil <- B -> C) <-> (B <- C -> D) <-> (C <- D -> nil) <- Tail
+
+// 4. Removendo do início (pop)
+let poppedValue = list.pop()
+print(poppedValue ?? "nil") // Saída: B
+print(list)                 // Saída: Head -> (nil <- C -> D) <-> (C <- D -> nil) <- Tail
+
+
+```
+**Uso Avançado (Protocolo Collection)**  
+Graças à conformidade com Collection, você pode interagir com a DoublyLinkedList de maneiras muito mais expressivas e poderosas.  
+```swift
+var list = DoublyLinkedList<Int>()
+list.append(10)
+list.append(20)
+list.append(30)
+
+// Iteração com for-in
+for value in list {
+    print(value)
+}
+// Saída:
+// 10
+// 20
+// 30
+
+// Propriedades como .count e .first
+print(list.count) // Saída: 3
+print(list.first ?? -1) // Saída: 10
+
+// Métodos de alta ordem como .map e .filter
+let squared = list.map { $0 * $0 }
+print(squared) // Saída: [100, 400, 900]
+
+let evenNumbers = list.filter { $0 % 2 == 0 }
+print(evenNumbers) // Saída: [10, 20, 30]
+
+
+```
+**Análise de Performance**  
+A **principal vantagem** de uma Lista Duplamente Encadeada sobre uma lista encadeada simples é a performance constante para operações de remoção no final da coleção.  
+A **principal vantagem** de uma Lista Duplamente Encadeada sobre uma lista encadeada simples é a performance constante para operações de remoção no final da coleção.  
+
+| Método | Complexidade de Tempo | Descrição |
+| -------------- | --------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| push | O(1) | Inserir no início da lista (head) é uma operação de tempo constante. |
+| append | O(1) | Inserir no fim da lista (tail) também é O(1). |
+| insert(after:) | O(1) | Inserir após um nó específico é uma operação de tempo constante. |
+| node(at:) | O(i) | Para encontrar um nó em um índice i, é preciso percorrer a lista a partir do head ou tail. |
+| pop | O(1) | Remover o primeiro elemento (head) é uma operação de tempo constante. |
+| removeLast | O(1) | Remover o último elemento é uma operação de tempo constante, pois temos acesso direto ao nó anterior (tail.previous). |
+| remove(after:) | O(1) | Remover um nó após um nó específico é uma operação de tempo constante. |
+  
+**Nota sobre Collection:** A conformidade com o protocolo Collection adiciona funcionalidades muito úteis, como a propriedade .count. É importante notar que, em uma DoublyLinkedList, o cálculo do .count tem uma complexidade de tempo de O(n), pois requer a travessia de toda a lista para contar os elementos. Da mesma forma, outras operações como .filtertambém são O(n).  
+
+---
+
 ### Stack<Element>
 
 Uma Pilha (Stack) é uma estrutura de dados que segue o princípio **LIFO** (Last-In, First-Out), ou seja, o último elemento a entrar é o primeiro a sair. É análoga a uma pilha de pratos: você adiciona (`push`) e remove (`pop`) pratos sempre pelo topo. Esta implementação utiliza um `Array` Swift como seu armazenamento interno, garantindo excelente performance.
