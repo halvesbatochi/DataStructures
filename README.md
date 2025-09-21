@@ -199,6 +199,68 @@ Graças ao uso de um `Array` como base, as operações principais de uma `Stack`
 
 ---
 
+## **Queue<Element>**  
+  
+Uma Fila (Queue) é uma estrutura de dados que segue o princípio **FIFO** (First-In, First-Out), ou seja, o primeiro elemento a entrar é o primeiro a sair. É análoga a uma fila de pessoas em um caixa de supermercado: a primeira pessoa a chegar é a primeira a ser atendida. Esta implementação utiliza um Array Swift como seu armazenamento interno.  
+  
+**Características Técnicas**  
+  
+* **Wrapper de Array Swift:** Construída sobre a estrutura Array nativa do Swift, aproveitando sua eficiência para as operações de enfileiramento.  
+* **FIFO (First-In, First-Out):** A lógica fundamental da fila é estritamente seguida em suas operações.  
+* **Semântica de Valor (struct):** Comporta-se como as coleções padrão do Swift.  
+* **Genérica (<Element>):** Pode armazenar qualquer tipo de dado.  
+* **Impressão Amigável (CustomStringConvertible):** Fornece uma representação visual clara da fila, facilitando a depuração.  
+  
+**Instanciação e Uso**  
+  
+Swift  
+  
+```
+// 1. Criando uma fila
+var queue = QueueArray<Int>()
+
+// 2. Enfileirando (enqueue) novos elementos
+_ = queue.enqueue(10)
+_ = queue.enqueue(20)
+
+// A fila agora é [10, 20], com 10 no início
+print("Fila atual: \(queue)") // Saída: Fila atual: [10, 20]
+
+// 3. Espiando (peek) o próximo elemento
+// Retorna o valor do primeiro elemento sem removê-lo
+if let firstElement = queue.peek {
+    print("Próximo elemento a sair: \(firstElement)") // Saída: Próximo elemento a sair: 10
+}
+
+// 4. Desenfileirando (dequeue)
+// Remove e retorna o primeiro elemento da fila
+let dequeuedValue = queue.dequeue()
+print("Valor removido: \(dequeuedValue ?? -1)") // Saída: Valor removido: 10
+print("Fila agora: \(queue)") // Saída: Fila agora: [20]
+
+// 5. Verificando se está vazia
+print("A fila está vazia? \(queue.isEmpty)") // Saída: A fila está vazia? false
+
+```
+  
+**Análise de Performance**  
+  
+A performance desta Queue baseada em Array tem uma particularidade: a operação de remoção no início do array (dequeue) não é otimizada.  
+
+| Operação | Melhor Caso | Pior Caso |
+| -------- | ----------- | --------- |
+| enqueue  | O(1)        | O(1)      |
+| dequeue  | O(n)        | O(n)      |
+| isEmpty  | O(1)        | O(1)      |
+| peek     | O(1)        | O(1)      |
+| Espaço   | O(n)        | O(n)      |
+  
+Exportar para as Planilhas  
+A operação de ****enqueue**** tem uma complexidade de tempo constante, pois o elemento é adicionado ao final do Array. No entanto, a operação de ****dequeue**** tem uma complexidade de tempo linear **O(n)**. Isso ocorre porque remover o primeiro elemento de um Array nativo requer que todos os outros elementos sejam realocados para preencher o espaço vazio, o que se torna menos eficiente à medida que a fila cresce.  
+
+
+---
+
 ### Como Usar (Instalação)
 
 Este projeto é um Swift Package. Para adicioná-lo como uma dependência ao seu projeto, adicione a URL deste repositório no Xcode ou no seu arquivo `Package.swift`.

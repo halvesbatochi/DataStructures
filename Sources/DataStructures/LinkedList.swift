@@ -49,7 +49,7 @@ public struct LinkedList<Value> {
             return
         }
         
-        var newHead = Node(value: oldNode.value)
+        let newHead = Node(value: oldNode.value)
         var newNode = newHead
         
         while let nextOldNode = oldNode.next {
