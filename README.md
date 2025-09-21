@@ -7,7 +7,7 @@ Uma coleção de estruturas de dados fundamentais e eficientes, implementada em 
 -   [Node<Value>](#nodevalue)
 -   [LinkedList<Value>](#linkedlistvalue)
 -   [Stack<Value>](#stackelement)
--   *Queue (em breve)*
+-   [Queue<Element>](#queueelement)
 
 ---
 
@@ -255,7 +255,7 @@ A performance desta Queue baseada em Array tem uma particularidade: a operação
 | peek     | O(1)        | O(1)      |
 | Espaço   | O(n)        | O(n)      |
   
-Exportar para as Planilhas  
+
 A operação de ****enqueue**** tem uma complexidade de tempo constante, pois o elemento é adicionado ao final do Array. No entanto, a operação de ****dequeue**** tem uma complexidade de tempo linear **O(n)**. Isso ocorre porque remover o primeiro elemento de um Array nativo requer que todos os outros elementos sejam realocados para preencher o espaço vazio, o que se torna menos eficiente à medida que a fila cresce.  
 
 
